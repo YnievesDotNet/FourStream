@@ -12,7 +12,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "cboden/ratchet": "~0.3.*",
-        "hoa/websocket": "~2.0",
+        "hoa/websocket": "~2.0"
     },
     "suggest": {
         "react/zmq": "Allows pushing messages form server to client. v1.1.* recommended."
