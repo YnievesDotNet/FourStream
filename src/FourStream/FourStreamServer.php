@@ -22,58 +22,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace YnievesDotNet\FourStream;
+namespace YnievesDotNet\FourStream\FourStream;
 
-use Illuminate\Support\ServiceProvider;
-use YnievesDotNet\FourStream\Command\FourStreamStartCommand;
+use Hoa\Websocket\Server as WebSocket;
+use Hoa\Socket\Server as Socket;
+use Hoa\Core\Event\Bucket as Bucket;
 
 /**
- * Service provider to instantiate the service.
+ * WebSocket server class.
  *
  * @package  YnievesDotNet\FourStream
  * @author   YnievesDotNet <yoinier.hn@gmail.com>
  */
-class FourStreamServiceProvider extends ServiceProvider {
-    
+class FourStreamServer {
     /**
-     * Internal service prefix.
+     * Hoa WebSocket server.
      *
-     * @var string
+     * @var Hoa\Websocket\Server
      */
-    const SERVICE_PREFIX = 'net.ynieves.fourstream';
+    protected $server;
 
     /**
-     * Indicates if loading of the provider is deferred.
+     * Prepares a new WebSocket server on a specified host & port.
      *
-     * @var boolean
+     * @param  string $tcpid
+     *
+     * @return YnievesDotNet\FourStream\FourStream\FourStreamServer
      */
-    protected $defer = false;
-
-    /**
-     * Bootstrap the application events.
-     */
-    public function boot(){
-        //
-    }
-    
-    /**
-     * Register the service provider.
-     */
-    public function register(){
-        $this->app['command.fourstream:start'] = $this->app->share(function($app)
-        {
-            return new FourStreamStartCommand();
+    public function start($tcpid)
+    {
+        $this->server = new Websocket(
+            new Socket($tcpid)
+        );
+        $this->server->on('open', function (Bucket $bucket) {
+            echo 'connection opened', "\n";
+            return;
         });
-
-        $this->commands('command.fourstream:start');
+        $this->server->on('message', function (Bucket $bucket ) {
+            $data = $bucket->getData();
+            $bucket->getSource()->broadcast($data['message']);
+            $bucket->getSource()->send($data['message']);
+            return;
+        });
+        $this->server->on('close', function (Bucket $bucket) {
+            echo 'connection closed', "\n";
+            return;
+        });
+        return $this;
     }
-    
+
     /**
-     * Get the services provided by the provider.
+     * Starts the prepared server.
      *
-     * @return array
+     * @return YnievesDotNet\FourStream\FourStream\FourStreamServer
      */
-    public function provides(){
-        return array('command.fourstream:start');
+    public function run()
+    {
+        $this->server->run();
+
+        return $this;
     }
 }
