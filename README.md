@@ -1,8 +1,8 @@
 # FourStream
 
 - [Introduction](#introduction)
-- [Install](docs/Install)
-- [Running the Server](docs/Running)
+- [Install](docs/Install.md)
+- [Running the Server](docs/Running.md)
 
 <a name="introduction"></a>
 ## Introduction
