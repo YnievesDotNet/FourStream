@@ -1,11 +1,13 @@
 {
     "name": "ynievesdotnet/fourstream",
     "description": "A Laravel 5.1.x websocket server made easy...",
+    "homepage": "https://github.com/ynievesdotnet/fourstream",
     "license": "MIT",
     "authors": [
         {
             "name": "Yoinier Hernandez Nieves",
-            "email": "ynieves@ynieves.net"
+            "email": "yoinier.hn@gmail.com",
+            "role": "CEO & Developer"
         }
     ],
     "require": {
@@ -13,8 +15,23 @@
         "laravel/framework": "5.1.*",
         "hoa/websocket": "~2.0"
     },
+    "require-dev": {
+        "orchestra/testbench": "3.1.*",
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "YnievesDotNet\FourStream": "src/"
+        }
+    },
     "suggest": {
         "react/zmq": "Allows pushing messages form server to client. v1.1.* recommended."
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
 }
