@@ -22,22 +22,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace YnievesDotNet\FourStream\Facades;
 
-use Illuminate\Support\Facades\Facade;
-use YnievesDotNet\FourStream\Fourstream as FStream;
+namespace YnievesDotNet\FourStream;
+
+use Hoa\Websocket\Client as WsClient;
+use Hoa\Socket\Client as SClient;
 
 /**
- * @see YnievesDotNet\WebSocket\WebSocket
+ * Class FourStream
+ * @package YnievesDotNet\FourStream
  */
-class FourStream extends Facade
-{
-    
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor() { return FStream::class; }
-
+class FourStream {
+    public function send($message, $node_id) {
+        $msg = base64_encode($message)."|".base64_encode($node_id);
+        $port = config('fourstream.port');
+        $tcpid = "tcp://127.0.0.1:$port";
+        $client = new WsClient(
+            new SClient($tcpid)
+        );
+        $client->connect();
+        $client->send($msg);
+        $client->close();
+    }
 }

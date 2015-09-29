@@ -78,9 +78,8 @@ class FourStreamStartCommand extends Command {
      */
     public function fire()
     {
-        $port = env('FOURSTREAM_WEBSOCKET_PORT',self::DEFAULT_WEBSOCKET_PORT);
-        $host = env('FOURSTREAM_WEBSOCKET_HOST',self::DEFAULT_WEBSOCKET_HOST);
-
+        $port = config('fourstream.port');
+        $host = config('fourstream.host');
         try {
             $tcpid = "tcp://$host:$port";
             $server = new FourStreamServer();

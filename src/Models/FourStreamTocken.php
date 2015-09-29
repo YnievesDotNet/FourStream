@@ -22,22 +22,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace YnievesDotNet\FourStream\Facades;
+namespace YnievesDotNet\FourStream\Models;
 
-use Illuminate\Support\Facades\Facade;
-use YnievesDotNet\FourStream\Fourstream as FStream;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * @see YnievesDotNet\WebSocket\WebSocket
+ * Class FourStreamToken
+ * @package YnievesDotNet\FourStream\Models
  */
-class FourStream extends Facade
-{
-    
+class FourStreamTocken extends Model {
     /**
-     * Get the registered name of the component.
+     * The table associated with the model.
      *
-     * @return string
+     * @var string
      */
-    protected static function getFacadeAccessor() { return FStream::class; }
-
+    protected $table = 'fstockens';
 }

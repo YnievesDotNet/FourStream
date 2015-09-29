@@ -27,6 +27,7 @@ namespace YnievesDotNet\FourStream\FourStream;
 use Hoa\Websocket\Server as WebSocket;
 use Hoa\Socket\Server as Socket;
 use Hoa\Core\Event\Bucket as Bucket;
+use YnievesDotNet\FourStream\Models\FourStreamTocken as FSTocken;
 
 /**
  * WebSocket server class.
@@ -43,6 +44,20 @@ class FourStreamServer {
     protected $server;
 
     /**
+     * Symfony Event Dispatcher
+     *
+     * @var Symfony\Component\EventDispatcher\EventDispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * FourStream Event Listener
+     *
+     * @var YnievesDotNet\FourStream\FourStream\FourStreamListener
+     */
+    protected $listener;
+
+    /**
      * Prepares a new WebSocket server on a specified host & port.
      *
      * @param  string $tcpid
@@ -51,23 +66,46 @@ class FourStreamServer {
      */
     public function start($tcpid)
     {
+        $oldNode = FSTocken::all();
+        echo "Closing old nodes", "\n";
+        foreach ($oldNode as $node) {
+            $node->delete();
+        }
+
         $this->server = new Websocket(
             new Socket($tcpid)
         );
+        //TODO: Eliminate from here for other methods
         $this->server->on('open', function (Bucket $bucket) {
-            echo 'connection opened', "\n";
-            return;
+            //TODO: Customize Open Connection Logic
         });
-        $this->server->on('message', function (Bucket $bucket ) {
+        $this->server->on('message', function (Bucket $bucket) {
             $data = $bucket->getData();
-            $bucket->getSource()->broadcast($data['message']);
-            $bucket->getSource()->send($data['message']);
+            $node = $bucket->getSource()->getConnection()->getCurrentNode();
+            if (substr($data["message"], 0, 4) === "tck|"){
+                $tck = substr($data["message"], 4);
+                $fstck = FSTocken::where('tocken', $tck)->first();
+                $fstck->websocket_id = $node->getId();
+                $fstck->save();
+                echo "Node->", $node->getID(), " assigned at user ", $fstck->user_id, "\n";
+                return;
+            } else  {
+                $msg = explode("|", $data["message"]);
+                $nodes = $bucket->getSource()->getConnection()->getNodes();
+                foreach ($nodes as $node) {
+                    if($node->getId() == base64_decode($msg[1])) {
+                        $bucket->getSource()->send(base64_decode($msg[0]),$node);
+                    }
+                };
+            }
             return;
         });
         $this->server->on('close', function (Bucket $bucket) {
-            echo 'connection closed', "\n";
+            $node = $bucket->getSource()->getConnection()->getCurrentNode();
+            $fstck = FSTocken::where('websocket_id', $node->getId())->delete();
             return;
         });
+
         return $this;
     }
 

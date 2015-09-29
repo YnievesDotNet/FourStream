@@ -53,7 +53,10 @@ class FourStreamServiceProvider extends ServiceProvider {
      * Bootstrap the application events.
      */
     public function boot(){
-        //
+        $this->publishes([
+            base_path('vendor/ynievesdotnet/fourstream/config/config.php') => config_path('fourstream.php'),
+            base_path('vendor/ynievesdotnet/fourstream/migrations') => base_path('database/migrations'),
+        ]);
     }
     
     /**
@@ -64,7 +67,6 @@ class FourStreamServiceProvider extends ServiceProvider {
         {
             return new FourStreamStartCommand();
         });
-
         $this->commands('command.fourstream:start');
     }
     

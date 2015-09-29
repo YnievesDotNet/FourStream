@@ -22,22 +22,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace YnievesDotNet\FourStream\Facades;
 
-use Illuminate\Support\Facades\Facade;
-use YnievesDotNet\FourStream\Fourstream as FStream;
+namespace YnievesDotNet\FourStream\Traits;
+
+use YnievesDotNet\FourStream\Models\FourStreamTocken as FSTocken;
 
 /**
- * @see YnievesDotNet\WebSocket\WebSocket
+ * Class FourStreamUserTockens
+ * @package YnievesDotNet\FourStream\Traits
  */
-class FourStream extends Facade
-{
-    
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor() { return FStream::class; }
+trait FourStreamUserTockens {
 
+    /**
+     * FSTocken relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fstocken()
+    {
+        return $this->hasMany('YnievesDotNet\FourStream\Models\FourStreamTocken');
+    }
+
+    public function generateTocken() {
+        $tckID = uniqid();
+        $fstocken = new FSTocken();
+        $fstocken->tocken = $tckID;
+        $fstocken->user_id = $this->id;
+        $fstocken->save();
+        return $tckID;
+    }
 }

@@ -25,9 +25,6 @@
             "YnievesDotNet\\FourStream\\": "src/"
         }
     },
-    "suggest": {
-        "react/zmq": "Allows pushing messages form server to client. v1.1.* recommended."
-    },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
