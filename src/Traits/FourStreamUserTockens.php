@@ -49,6 +49,6 @@ trait FourStreamUserTockens {
         $fstocken->tocken = $tckID;
         $fstocken->user_id = $this->id;
         $fstocken->save();
-        return $tckID;
+        return "tck|".$tckID;
     }
 }

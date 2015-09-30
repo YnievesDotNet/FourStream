@@ -4,9 +4,7 @@
 
 <a name="running"></a>
 ## Executing the Start Command
-In this time you can run `php artisan fourstream:start` in your terminal to start the Hoa/WebSocket Server.
-
-TODO: At this moment, the server only can broadcasting the message sending to him. This is an example of the use of this app.
+In this time you can run `php artisan fourstream:start` in your terminal to start the YnievesDotNet\FourStream Server.
 
 Add this lines un your template:
 ```html
@@ -70,4 +68,4 @@ and this javascript:
 	  console.log(e);
 	}
 ```
-And the result is fine.
+And the result is fine. This is a classic test. The advanced use is explained in [Examples](examples/) directory.

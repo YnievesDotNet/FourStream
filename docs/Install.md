@@ -12,7 +12,7 @@ Add at your composer file this:
 ```json
 {
     "require": {
-        "ynievesdotnet/fourstream": "*"
+        "ynievesdotnet/fourstream": "~0.2"
     }
 }
 ```
@@ -29,7 +29,7 @@ YnievesDotNet\FourStream\FourStreamServiceProvider::class,
 
 ##### Facade
 ```php
-'FourStream' => YnievesDotNet\FourStream\Facades\TwoStream::class,
+'FourStream' => YnievesDotNet\FourStream\Facades\FourStream::class,
 ```
 
 <a name="assets"></a>

@@ -87,7 +87,6 @@ class FourStreamServer {
                 $fstck = FSTocken::where('tocken', $tck)->first();
                 $fstck->websocket_id = $node->getId();
                 $fstck->save();
-                echo "Node->", $node->getID(), " assigned at user ", $fstck->user_id, "\n";
                 return;
             } else  {
                 $msg = explode("|", $data["message"]);

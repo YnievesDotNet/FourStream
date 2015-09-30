@@ -70,6 +70,14 @@
 						<a href="namespace-YnievesDotNet.FourStream.FourStream.html">
 							FourStream						</a>
 							</li>
+					<li>
+						<a href="namespace-YnievesDotNet.FourStream.Models.html">
+							Models						</a>
+							</li>
+					<li>
+						<a href="namespace-YnievesDotNet.FourStream.Traits.html">
+							Traits						</a>
+							</li>
 								</ul></li></ul></li>
 			</ul>
 		</div>
@@ -80,11 +88,17 @@
 			<ul>
 				<li><a href="class-YnievesDotNet.FourStream.Command.FourStreamStartCommand.html">YnievesDotNet\FourStream\Command\FourStreamStartCommand</a></li>
 				<li><a href="class-YnievesDotNet.FourStream.Facades.FourStream.html">YnievesDotNet\FourStream\Facades\FourStream</a></li>
+				<li><a href="class-YnievesDotNet.FourStream.FourStream.html">YnievesDotNet\FourStream\FourStream</a></li>
 				<li><a href="class-YnievesDotNet.FourStream.FourStream.FourStreamServer.html">YnievesDotNet\FourStream\FourStream\FourStreamServer</a></li>
 				<li><a href="class-YnievesDotNet.FourStream.FourStreamServiceProvider.html">YnievesDotNet\FourStream\FourStreamServiceProvider</a></li>
+				<li><a href="class-YnievesDotNet.FourStream.Models.FourStreamTocken.html">YnievesDotNet\FourStream\Models\FourStreamTocken</a></li>
 			</ul>
 
 
+			<h3>Traits</h3>
+			<ul>
+				<li><a href="class-YnievesDotNet.FourStream.Traits.FourStreamUserTockens.html">YnievesDotNet\FourStream\Traits\FourStreamUserTockens</a></li>
+			</ul>
 
 
 
@@ -176,51 +190,50 @@
 </span></span><span id="78" class="l"><a href="#78"> 78 </a><span class="php-comment">     */</span>
 </span><span id="79" class="l"><a href="#79"> 79 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> fire()
 </span><span id="80" class="l"><a href="#80"> 80 </a>    {
-</span><span id="81" class="l"><a href="#81"> 81 </a>        <span class="php-var">$port</span> = env(<span class="php-quote">'FOURSTREAM_WEBSOCKET_PORT'</span>,self::DEFAULT_WEBSOCKET_PORT);
-</span><span id="82" class="l"><a href="#82"> 82 </a>        <span class="php-var">$host</span> = env(<span class="php-quote">'FOURSTREAM_WEBSOCKET_HOST'</span>,self::DEFAULT_WEBSOCKET_HOST);
-</span><span id="83" class="l"><a href="#83"> 83 </a>
-</span><span id="84" class="l"><a href="#84"> 84 </a>        <span class="php-keyword1">try</span> {
-</span><span id="85" class="l"><a href="#85"> 85 </a>            <span class="php-var">$tcpid</span> = <span class="php-quote">&quot;tcp://</span><span class="php-var">$host</span><span class="php-quote">:</span><span class="php-var">$port</span><span class="php-quote">&quot;</span>;
-</span><span id="86" class="l"><a href="#86"> 86 </a>            <span class="php-var">$server</span> = <span class="php-keyword1">new</span> FourStreamServer();
-</span><span id="87" class="l"><a href="#87"> 87 </a>            <span class="php-var">$server</span>-&gt;start(<span class="php-var">$tcpid</span>);
-</span><span id="88" class="l"><a href="#88"> 88 </a>            <span class="php-var">$this</span>-&gt;info(<span class="php-quote">&quot;WebSocket server started on: tcp://</span><span class="php-var">{$host}</span><span class="php-quote">:</span><span class="php-var">{$port}</span><span class="php-quote">&quot;</span>);
-</span><span id="89" class="l"><a href="#89"> 89 </a>            <span class="php-var">$server</span>-&gt;run();
-</span><span id="90" class="l"><a href="#90"> 90 </a>        } <span class="php-keyword1">catch</span> (Exception <span class="php-var">$e</span>) {
-</span><span id="91" class="l"><a href="#91"> 91 </a>            <span class="php-keyword2">Log</span>::error(<span class="php-quote">'Something went wrong:'</span>, <span class="php-var">$e</span>);
-</span><span id="92" class="l"><a href="#92"> 92 </a>            <span class="php-var">$this</span>-&gt;error(<span class="php-quote">'Unable to establish a WebSocket server. Review the log for more information.'</span>);
-</span><span id="93" class="l"><a href="#93"> 93 </a>        }
-</span><span id="94" class="l"><a href="#94"> 94 </a>    }
-</span><span id="95" class="l"><a href="#95"> 95 </a>
-</span><span id="96" class="l"><a href="#96"> 96 </a>    <span class="php-comment">/**
-</span></span><span id="97" class="l"><a href="#97"> 97 </a><span class="php-comment">     * Get the console command options.
-</span></span><span id="98" class="l"><a href="#98"> 98 </a><span class="php-comment">     *
-</span></span><span id="99" class="l"><a href="#99"> 99 </a><span class="php-comment">     * @return array
-</span></span><span id="100" class="l"><a href="#100">100 </a><span class="php-comment">     */</span>
-</span><span id="101" class="l"><a href="#101">101 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> getOptions()
-</span><span id="102" class="l"><a href="#102">102 </a>    {
-</span><span id="103" class="l"><a href="#103">103 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">array</span>(
-</span><span id="104" class="l"><a href="#104">104 </a>            <span class="php-keyword1">array</span>(
-</span><span id="105" class="l"><a href="#105">105 </a>                <span class="php-quote">'port'</span>, <span class="php-keyword1">null</span>, InputOption::VALUE_OPTIONAL,
-</span><span id="106" class="l"><a href="#106">106 </a>                <span class="php-quote">&quot;The port that the WebSocket server will run on (default: {self::DEFAULT_WEBSOCKET_PORT})&quot;</span>,
-</span><span id="107" class="l"><a href="#107">107 </a>                 self::DEFAULT_WEBSOCKET_PORT
-</span><span id="108" class="l"><a href="#108">108 </a>            ),
-</span><span id="109" class="l"><a href="#109">109 </a>            <span class="php-keyword1">array</span>(
-</span><span id="110" class="l"><a href="#110">110 </a>                <span class="php-quote">'host'</span>, <span class="php-keyword1">null</span>, InputOption::VALUE_OPTIONAL,
-</span><span id="111" class="l"><a href="#111">111 </a>                <span class="php-quote">&quot;The host that the WebSocket server will run on (default: {self::DEFAULT_WEBSOCKET_HOST})&quot;</span>,
-</span><span id="112" class="l"><a href="#112">112 </a>                 self::DEFAULT_WEBSOCKET_HOST
-</span><span id="113" class="l"><a href="#113">113 </a>            ),
-</span><span id="114" class="l"><a href="#114">114 </a>        );
-</span><span id="115" class="l"><a href="#115">115 </a>    }
-</span><span id="116" class="l"><a href="#116">116 </a>
-</span><span id="117" class="l"><a href="#117">117 </a>}
-</span><span id="118" class="l"><a href="#118">118 </a></span></code></pre>
+</span><span id="81" class="l"><a href="#81"> 81 </a>        <span class="php-var">$port</span> = config(<span class="php-quote">'fourstream.port'</span>);
+</span><span id="82" class="l"><a href="#82"> 82 </a>        <span class="php-var">$host</span> = config(<span class="php-quote">'fourstream.host'</span>);
+</span><span id="83" class="l"><a href="#83"> 83 </a>        <span class="php-keyword1">try</span> {
+</span><span id="84" class="l"><a href="#84"> 84 </a>            <span class="php-var">$tcpid</span> = <span class="php-quote">&quot;tcp://</span><span class="php-var">$host</span><span class="php-quote">:</span><span class="php-var">$port</span><span class="php-quote">&quot;</span>;
+</span><span id="85" class="l"><a href="#85"> 85 </a>            <span class="php-var">$server</span> = <span class="php-keyword1">new</span> FourStreamServer();
+</span><span id="86" class="l"><a href="#86"> 86 </a>            <span class="php-var">$server</span>-&gt;start(<span class="php-var">$tcpid</span>);
+</span><span id="87" class="l"><a href="#87"> 87 </a>            <span class="php-var">$this</span>-&gt;info(<span class="php-quote">&quot;WebSocket server started on: tcp://</span><span class="php-var">{$host}</span><span class="php-quote">:</span><span class="php-var">{$port}</span><span class="php-quote">&quot;</span>);
+</span><span id="88" class="l"><a href="#88"> 88 </a>            <span class="php-var">$server</span>-&gt;run();
+</span><span id="89" class="l"><a href="#89"> 89 </a>        } <span class="php-keyword1">catch</span> (Exception <span class="php-var">$e</span>) {
+</span><span id="90" class="l"><a href="#90"> 90 </a>            <span class="php-keyword2">Log</span>::error(<span class="php-quote">'Something went wrong:'</span>, <span class="php-var">$e</span>);
+</span><span id="91" class="l"><a href="#91"> 91 </a>            <span class="php-var">$this</span>-&gt;error(<span class="php-quote">'Unable to establish a WebSocket server. Review the log for more information.'</span>);
+</span><span id="92" class="l"><a href="#92"> 92 </a>        }
+</span><span id="93" class="l"><a href="#93"> 93 </a>    }
+</span><span id="94" class="l"><a href="#94"> 94 </a>
+</span><span id="95" class="l"><a href="#95"> 95 </a>    <span class="php-comment">/**
+</span></span><span id="96" class="l"><a href="#96"> 96 </a><span class="php-comment">     * Get the console command options.
+</span></span><span id="97" class="l"><a href="#97"> 97 </a><span class="php-comment">     *
+</span></span><span id="98" class="l"><a href="#98"> 98 </a><span class="php-comment">     * @return array
+</span></span><span id="99" class="l"><a href="#99"> 99 </a><span class="php-comment">     */</span>
+</span><span id="100" class="l"><a href="#100">100 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> getOptions()
+</span><span id="101" class="l"><a href="#101">101 </a>    {
+</span><span id="102" class="l"><a href="#102">102 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">array</span>(
+</span><span id="103" class="l"><a href="#103">103 </a>            <span class="php-keyword1">array</span>(
+</span><span id="104" class="l"><a href="#104">104 </a>                <span class="php-quote">'port'</span>, <span class="php-keyword1">null</span>, InputOption::VALUE_OPTIONAL,
+</span><span id="105" class="l"><a href="#105">105 </a>                <span class="php-quote">&quot;The port that the WebSocket server will run on (default: {self::DEFAULT_WEBSOCKET_PORT})&quot;</span>,
+</span><span id="106" class="l"><a href="#106">106 </a>                 self::DEFAULT_WEBSOCKET_PORT
+</span><span id="107" class="l"><a href="#107">107 </a>            ),
+</span><span id="108" class="l"><a href="#108">108 </a>            <span class="php-keyword1">array</span>(
+</span><span id="109" class="l"><a href="#109">109 </a>                <span class="php-quote">'host'</span>, <span class="php-keyword1">null</span>, InputOption::VALUE_OPTIONAL,
+</span><span id="110" class="l"><a href="#110">110 </a>                <span class="php-quote">&quot;The host that the WebSocket server will run on (default: {self::DEFAULT_WEBSOCKET_HOST})&quot;</span>,
+</span><span id="111" class="l"><a href="#111">111 </a>                 self::DEFAULT_WEBSOCKET_HOST
+</span><span id="112" class="l"><a href="#112">112 </a>            ),
+</span><span id="113" class="l"><a href="#113">113 </a>        );
+</span><span id="114" class="l"><a href="#114">114 </a>    }
+</span><span id="115" class="l"><a href="#115">115 </a>
+</span><span id="116" class="l"><a href="#116">116 </a>}
+</span><span id="117" class="l"><a href="#117">117 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
 		YnievesDotNet\FourStream API documentation generated by <a href="http://apigen.org">ApiGen</a>
 	</div>
 </div>
-<script src="resources/combined.js?f0a836b26e98af87d8d5c6c2fb2e20d6be9e92bb"></script>
-<script src="elementlist.js?44eb205ea6ba5fb133dce6dfd50030e0e60ff6ca"></script>
+<script src="resources/combined.js?ce9774f8a08688ca2ad92d96c252c7d6e7f787c4"></script>
+<script src="elementlist.js?3a43175a249a44622a57dee618988eef89890489"></script>
 </body>
 </html>

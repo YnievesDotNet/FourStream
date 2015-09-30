@@ -9,12 +9,15 @@
 - [Introduction](#introduction)
 - [Licence](docs/LICENCE.md)
 - [Install](docs/Install.md)
-- [Configuring the Nodes] (docs/Configuring.md)
+- [Configuring the Nodes](docs/Configuring.md)
 - [Running the Server](docs/Running.md)
+- [Sending Messages](docs/Sending.md)
 
 <a name="introduction"></a>
 ## Introduction
 FourStream (4Stream) is a Laravel 5.1.x Websocket Server & Client, using as Websocket Library the HOA Project.
+
+With this project is possible send broadcast message at all user connected at WebSocket server, at one group of users or at one user specifics. See the [Examples](examples/) directory.
 
 This project has been released using [MIT Licence](docs/LICENCE.md).
 

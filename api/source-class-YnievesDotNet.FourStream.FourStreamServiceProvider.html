@@ -70,6 +70,14 @@
 						<a href="namespace-YnievesDotNet.FourStream.FourStream.html">
 							FourStream						</a>
 							</li>
+					<li>
+						<a href="namespace-YnievesDotNet.FourStream.Models.html">
+							Models						</a>
+							</li>
+					<li>
+						<a href="namespace-YnievesDotNet.FourStream.Traits.html">
+							Traits						</a>
+							</li>
 								</ul></li></ul></li>
 			</ul>
 		</div>
@@ -80,11 +88,17 @@
 			<ul>
 				<li><a href="class-YnievesDotNet.FourStream.Command.FourStreamStartCommand.html">YnievesDotNet\FourStream\Command\FourStreamStartCommand</a></li>
 				<li><a href="class-YnievesDotNet.FourStream.Facades.FourStream.html">YnievesDotNet\FourStream\Facades\FourStream</a></li>
+				<li><a href="class-YnievesDotNet.FourStream.FourStream.html">YnievesDotNet\FourStream\FourStream</a></li>
 				<li><a href="class-YnievesDotNet.FourStream.FourStream.FourStreamServer.html">YnievesDotNet\FourStream\FourStream\FourStreamServer</a></li>
 				<li><a href="class-YnievesDotNet.FourStream.FourStreamServiceProvider.html">YnievesDotNet\FourStream\FourStreamServiceProvider</a></li>
+				<li><a href="class-YnievesDotNet.FourStream.Models.FourStreamTocken.html">YnievesDotNet\FourStream\Models\FourStreamTocken</a></li>
 			</ul>
 
 
+			<h3>Traits</h3>
+			<ul>
+				<li><a href="class-YnievesDotNet.FourStream.Traits.FourStreamUserTockens.html">YnievesDotNet\FourStream\Traits\FourStreamUserTockens</a></li>
+			</ul>
 
 
 
@@ -151,37 +165,39 @@
 </span></span><span id="53" class="l"><a href="#53">53 </a><span class="php-comment">     * Bootstrap the application events.
 </span></span><span id="54" class="l"><a href="#54">54 </a><span class="php-comment">     */</span>
 </span><span id="55" class="l"><a href="#55">55 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> boot(){
-</span><span id="56" class="l"><a href="#56">56 </a>        <span class="php-comment">//</span>
-</span><span id="57" class="l"><a href="#57">57 </a>    }
-</span><span id="58" class="l"><a href="#58">58 </a>    
-</span><span id="59" class="l"><a href="#59">59 </a>    <span class="php-comment">/**
-</span></span><span id="60" class="l"><a href="#60">60 </a><span class="php-comment">     * Register the service provider.
-</span></span><span id="61" class="l"><a href="#61">61 </a><span class="php-comment">     */</span>
-</span><span id="62" class="l"><a href="#62">62 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> register(){
-</span><span id="63" class="l"><a href="#63">63 </a>        <span class="php-var">$this</span>-&gt;app[<span class="php-quote">'command.fourstream:start'</span>] = <span class="php-var">$this</span>-&gt;app-&gt;share(<span class="php-keyword1">function</span>(<span class="php-var">$app</span>)
-</span><span id="64" class="l"><a href="#64">64 </a>        {
-</span><span id="65" class="l"><a href="#65">65 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> FourStreamStartCommand();
-</span><span id="66" class="l"><a href="#66">66 </a>        });
-</span><span id="67" class="l"><a href="#67">67 </a>
-</span><span id="68" class="l"><a href="#68">68 </a>        <span class="php-var">$this</span>-&gt;commands(<span class="php-quote">'command.fourstream:start'</span>);
-</span><span id="69" class="l"><a href="#69">69 </a>    }
-</span><span id="70" class="l"><a href="#70">70 </a>    
-</span><span id="71" class="l"><a href="#71">71 </a>    <span class="php-comment">/**
-</span></span><span id="72" class="l"><a href="#72">72 </a><span class="php-comment">     * Get the services provided by the provider.
-</span></span><span id="73" class="l"><a href="#73">73 </a><span class="php-comment">     *
-</span></span><span id="74" class="l"><a href="#74">74 </a><span class="php-comment">     * @return array
-</span></span><span id="75" class="l"><a href="#75">75 </a><span class="php-comment">     */</span>
-</span><span id="76" class="l"><a href="#76">76 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> provides(){
-</span><span id="77" class="l"><a href="#77">77 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">array</span>(<span class="php-quote">'command.fourstream:start'</span>);
-</span><span id="78" class="l"><a href="#78">78 </a>    }
-</span><span id="79" class="l"><a href="#79">79 </a>}</span></code></pre>
+</span><span id="56" class="l"><a href="#56">56 </a>        <span class="php-var">$this</span>-&gt;publishes([
+</span><span id="57" class="l"><a href="#57">57 </a>            base_path(<span class="php-quote">'vendor/ynievesdotnet/fourstream/config/config.php'</span>) =&gt; config_path(<span class="php-quote">'fourstream.php'</span>),
+</span><span id="58" class="l"><a href="#58">58 </a>            base_path(<span class="php-quote">'vendor/ynievesdotnet/fourstream/migrations'</span>) =&gt; base_path(<span class="php-quote">'database/migrations'</span>),
+</span><span id="59" class="l"><a href="#59">59 </a>        ]);
+</span><span id="60" class="l"><a href="#60">60 </a>    }
+</span><span id="61" class="l"><a href="#61">61 </a>    
+</span><span id="62" class="l"><a href="#62">62 </a>    <span class="php-comment">/**
+</span></span><span id="63" class="l"><a href="#63">63 </a><span class="php-comment">     * Register the service provider.
+</span></span><span id="64" class="l"><a href="#64">64 </a><span class="php-comment">     */</span>
+</span><span id="65" class="l"><a href="#65">65 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> register(){
+</span><span id="66" class="l"><a href="#66">66 </a>        <span class="php-var">$this</span>-&gt;app[<span class="php-quote">'command.fourstream:start'</span>] = <span class="php-var">$this</span>-&gt;app-&gt;share(<span class="php-keyword1">function</span>(<span class="php-var">$app</span>)
+</span><span id="67" class="l"><a href="#67">67 </a>        {
+</span><span id="68" class="l"><a href="#68">68 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> FourStreamStartCommand();
+</span><span id="69" class="l"><a href="#69">69 </a>        });
+</span><span id="70" class="l"><a href="#70">70 </a>        <span class="php-var">$this</span>-&gt;commands(<span class="php-quote">'command.fourstream:start'</span>);
+</span><span id="71" class="l"><a href="#71">71 </a>    }
+</span><span id="72" class="l"><a href="#72">72 </a>    
+</span><span id="73" class="l"><a href="#73">73 </a>    <span class="php-comment">/**
+</span></span><span id="74" class="l"><a href="#74">74 </a><span class="php-comment">     * Get the services provided by the provider.
+</span></span><span id="75" class="l"><a href="#75">75 </a><span class="php-comment">     *
+</span></span><span id="76" class="l"><a href="#76">76 </a><span class="php-comment">     * @return array
+</span></span><span id="77" class="l"><a href="#77">77 </a><span class="php-comment">     */</span>
+</span><span id="78" class="l"><a href="#78">78 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> provides(){
+</span><span id="79" class="l"><a href="#79">79 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">array</span>(<span class="php-quote">'command.fourstream:start'</span>);
+</span><span id="80" class="l"><a href="#80">80 </a>    }
+</span><span id="81" class="l"><a href="#81">81 </a>}</span></code></pre>
 	</div>
 
 	<div id="footer">
 		YnievesDotNet\FourStream API documentation generated by <a href="http://apigen.org">ApiGen</a>
 	</div>
 </div>
-<script src="resources/combined.js?f0a836b26e98af87d8d5c6c2fb2e20d6be9e92bb"></script>
-<script src="elementlist.js?44eb205ea6ba5fb133dce6dfd50030e0e60ff6ca"></script>
+<script src="resources/combined.js?ce9774f8a08688ca2ad92d96c252c7d6e7f787c4"></script>
+<script src="elementlist.js?3a43175a249a44622a57dee618988eef89890489"></script>
 </body>
 </html>
