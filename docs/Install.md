@@ -12,7 +12,7 @@ Add at your composer file this:
 ```json
 {
     "require": {
-        "ynievesdotnet/fourstream": "~0.2"
+        "ynievesdotnet/fourstream": "~0.3"
     }
 }
 ```

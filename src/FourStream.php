@@ -27,12 +27,28 @@ namespace YnievesDotNet\FourStream;
 
 use Hoa\Websocket\Client as WsClient;
 use Hoa\Socket\Client as SClient;
+use YnievesDotNet\FourStream\Models\FourStreamTocken as FSTocken;
 
 /**
  * Class FourStream
  * @package YnievesDotNet\FourStream
  */
 class FourStream {
+    /**
+     * @param $message
+     * @param $id
+     */
+    public function sendUserID($message, $id) {
+        $nodes = FSTocken::where("user_id", $id)->get();
+        foreach ($nodes as $node) {
+            self::send($message, $node->websocket_id);
+        }
+    }
+
+    /**
+     * @param $message
+     * @param $node_id
+     */
     public function send($message, $node_id) {
         $msg = base64_encode($message)."|".base64_encode($node_id);
         $port = config('fourstream.port');

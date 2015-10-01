@@ -17,6 +17,10 @@ To send at specific group of client, the you use this method:
 ```php
 MessageSender::sendRoleSlug($message, $role);
 ```
+To send at specific User, use this method:
+```php
+MessageSender::sendUserID($message, $id);
+```
 And the admin role, try this:
 ```php
 MessageSender::sendAdmins($message);
