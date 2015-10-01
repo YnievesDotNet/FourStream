@@ -7,6 +7,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/ynievesdotnet/fourstream.svg?style=flat-square)](https://packagist.org/packages/ynievesdotnet/fourstream)
 
 - [Introduction](#introduction)
+- [Changelog](CHANGELOG.md)
 - [Licence](docs/LICENCE.md)
 - [Install](docs/Install.md)
 - [Configuring the Nodes](docs/Configuring.md)
