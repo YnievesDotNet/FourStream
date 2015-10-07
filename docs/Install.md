@@ -12,7 +12,7 @@ Add at your composer file this:
 ```json
 {
     "require": {
-        "ynievesdotnet/fourstream": "~0.3"
+        "ynievesdotnet/fourstream": "~0.4"
     }
 }
 ```
@@ -37,7 +37,6 @@ YnievesDotNet\FourStream\FourStreamServiceProvider::class,
 Is necessary publish the migrate file and the config file, then you can execute in your terminal:
 ```
 php artisan vendor:publish --provider="YnievesDotNet\FourStream\FourStreamServiceProvider"
-php artisan migrate
 ```
 Update config file to reference your User model, your host and your socket port.
 ```

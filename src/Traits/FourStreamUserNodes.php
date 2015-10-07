@@ -22,19 +22,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace YnievesDotNet\FourStream\Models;
 
-use Illuminate\Database\Eloquent\Model;
+namespace YnievesDotNet\FourStream\Traits;
+
+use YnievesDotNet\FourStream\Models\FourStreamNode as FSNode;
 
 /**
- * Class FourStreamToken
- * @package YnievesDotNet\FourStream\Models
+ * Class FourStreamUserTockens
+ * @package YnievesDotNet\FourStream\Traits
  */
-class FourStreamTocken extends Model {
+trait FourStreamUserNodes {
+
     /**
-     * The table associated with the model.
+     * FSNode relationship
      *
-     * @var string
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $table = 'fstockens';
+    public function fsnode()
+    {
+        return $this->hasMany('YnievesDotNet\FourStream\Models\FourStreamNode');
+    }
+
+    public function generateTocken() {
+        $tckID = uniqid();
+        $fsnode = new FSNode();
+        $fsnode->tocken = $tckID;
+        $fsnode->user_id = $this->id;
+        $fsnode->save();
+        return $tckID;
+    }
 }

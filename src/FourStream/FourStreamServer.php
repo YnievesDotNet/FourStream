@@ -27,7 +27,7 @@ namespace YnievesDotNet\FourStream\FourStream;
 use Hoa\Websocket\Server as WebSocket;
 use Hoa\Socket\Server as Socket;
 use Hoa\Core\Event\Bucket as Bucket;
-use YnievesDotNet\FourStream\Models\FourStreamTocken as FSTocken;
+use YnievesDotNet\FourStream\Models\FourStreamNode as FSNode;
 
 /**
  * WebSocket server class.
@@ -44,20 +44,6 @@ class FourStreamServer {
     protected $server;
 
     /**
-     * Symfony Event Dispatcher
-     *
-     * @var Symfony\Component\EventDispatcher\EventDispatcher
-     */
-    protected $dispatcher;
-
-    /**
-     * FourStream Event Listener
-     *
-     * @var YnievesDotNet\FourStream\FourStream\FourStreamListener
-     */
-    protected $listener;
-
-    /**
      * Prepares a new WebSocket server on a specified host & port.
      *
      * @param  string $tcpid
@@ -66,7 +52,7 @@ class FourStreamServer {
      */
     public function start($tcpid)
     {
-        $oldNode = FSTocken::all();
+        $oldNode = FSNode::all();
         echo "Closing old nodes", "\n";
         foreach ($oldNode as $node) {
             $node->delete();
@@ -82,26 +68,38 @@ class FourStreamServer {
         $this->server->on('message', function (Bucket $bucket) {
             $data = $bucket->getData();
             $node = $bucket->getSource()->getConnection()->getCurrentNode();
-            if (substr($data["message"], 0, 4) === "tck|"){
-                $tck = substr($data["message"], 4);
-                $fstck = FSTocken::where('tocken', $tck)->first();
-                $fstck->websocket_id = $node->getId();
-                $fstck->save();
-                return;
-            } else  {
-                $msg = explode("|", $data["message"]);
-                $nodes = $bucket->getSource()->getConnection()->getNodes();
-                foreach ($nodes as $node) {
-                    if($node->getId() == base64_decode($msg[1])) {
-                        $bucket->getSource()->send(base64_decode($msg[0]),$node);
+            $data = json_decode($data['message']);
+            $nodes = $bucket->getSource()->getConnection()->getNodes();
+            switch ($data->type) {
+                case "tocken":
+                    $tck = $data->data;
+                    $fsnode = FSNode::where('tocken', $tck)->first();
+                    $fsnode->node_id = $node->getId();
+                    $fsnode->save();
+                    if ($data->tag != "") {
+                        $fstag = $fsnode->fstag()->create([
+                            'tag' => $data->tag,
+                        ]);
                     }
-                };
+                    return;
+
+                case "notify":
+                case "message":
+                    foreach ($nodes as $node) {
+                        if($node->getId() == $data->node_id) {
+                            $bucket->getSource()->send(json_encode($data), $node);
+                        }
+                    };
+                    return;
+
+                default:
+                    return;
             }
             return;
         });
         $this->server->on('close', function (Bucket $bucket) {
             $node = $bucket->getSource()->getConnection()->getCurrentNode();
-            $fstck = FSTocken::where('websocket_id', $node->getId())->delete();
+            $fsnode = FSNode::where('node_id', $node->getId())->delete();
             return;
         });
 

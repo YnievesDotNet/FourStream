@@ -23,32 +23,33 @@
  * THE SOFTWARE.
  */
 
-namespace YnievesDotNet\FourStream\Traits;
+namespace YnievesDotNet\FourStream\Models;
 
-use YnievesDotNet\FourStream\Models\FourStreamTocken as FSTocken;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class FourStreamUserTockens
- * @package YnievesDotNet\FourStream\Traits
+ * Class FourStreamTag
+ * @package YnievesDotNet\FourStream\Models
  */
-trait FourStreamUserTockens {
+class FourStreamTag extends Model {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'fstags';
 
     /**
-     * FSTocken relationship
+     * The attributes that are mass assignable.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @var array
      */
-    public function fstocken()
-    {
-        return $this->hasMany('YnievesDotNet\FourStream\Models\FourStreamTocken');
-    }
+    protected $fillable = ['tag'];
 
-    public function generateTocken() {
-        $tckID = uniqid();
-        $fstocken = new FSTocken();
-        $fstocken->tocken = $tckID;
-        $fstocken->user_id = $this->id;
-        $fstocken->save();
-        return "tck|".$tckID;
+    /**
+     * @return mixed
+     */
+    public function fsnode() {
+        return $this->belongsTo('YnievesDotNet\FourStream\Models\FourStreamNode');
     }
 }

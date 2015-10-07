@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFstockensTable extends Migration
+class CreateFstagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,14 @@ class CreateFstockensTable extends Migration
      */
     public function up()
     {
-        Schema::create('fstockens', function (Blueprint $table) {
+        Schema::create('fstags', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tocken')->nullable();
-            $table->string('websocket_id')->nullable();
-            $table->integer('user_id')->unsigned();
+            $table->string('tag')->nullable();
+            $table->integer('fsnode_id')->unsigned();
+            $table->foreign('fsnode_id')->references('id')->on('fsnodes')->onDelete('cascade');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 
@@ -29,6 +29,6 @@ class CreateFstockensTable extends Migration
      * @return void
      */
     public function down() {
-        Schema::drop('fstockens');
+        Schema::drop('fstags');
     }
 }

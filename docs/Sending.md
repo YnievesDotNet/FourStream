@@ -25,4 +25,8 @@ And the admin role, try this:
 ```php
 MessageSender::sendAdmins($message);
 ```
+For send message at all nodes at one page tagged, you can do this:
+```php
+MessageSender::sendTaggedMessage('backend', 'Login Requested');
+```
 Guiding by the example, do you generate all the group what do you need.

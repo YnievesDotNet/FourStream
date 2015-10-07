@@ -22,48 +22,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+namespace YnievesDotNet\FourStream\Models;
 
-namespace YnievesDotNet\FourStream;
-
-use Hoa\Websocket\Client as WsClient;
-use Hoa\Socket\Client as SClient;
-use YnievesDotNet\FourStream\Models\FourStreamNode as FSNode;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class FourStream
- * @package YnievesDotNet\FourStream
+ * Class FourStreamToken
+ * @package YnievesDotNet\FourStream\Models
  */
-class FourStream {
+class FourStreamNode extends Model {
     /**
-     * @param $type
-     * @param $data
-     * @param $id
+     * The table associated with the model.
+     *
+     * @var string
      */
-    public function sendUserID($type, $data, $id) {
-        $nodes = FSNode::where("user_id", $id)->get();
-        foreach ($nodes as $node) {
-            self::send($type, $data, $node->node_id);
-        }
+    protected $table = 'fsnodes';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function fstag() {
+        return $this->hasOne('YnievesDotNet\FourStream\Models\FourStreamTag', 'fsnode_id');
     }
 
     /**
-     * @param $type
-     * @param $data
-     * @param $node_id
+     * Get the user that owns the node.
      */
-    public function send($type, $data, $node_id = null) {
-        $msg = array(
-            'type' => $type,
-            'data' => $data,
-            'node_id' => $node_id
-        );
-        $port = config('fourstream.port');
-        $tcpid = "tcp://127.0.0.1:$port";
-        $client = new WsClient(
-            new SClient($tcpid)
-        );
-        $client->connect();
-        $client->send(json_encode($msg));
-        $client->close();
+    public function user() {
+        return $this->belongsTo('App\User');
     }
 }

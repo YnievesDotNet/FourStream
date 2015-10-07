@@ -42,7 +42,7 @@ class FourStreamStartCommand extends Command {
      *
      * @var integer
      */
-    const DEFAULT_WEBSOCKET_PORT = 8889;
+    const DEFAULT_WEBSOCKET_PORT = 8080;
     
     /**
      * Default WebSocket host.
