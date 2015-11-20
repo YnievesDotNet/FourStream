@@ -41,14 +41,14 @@ class FourStreamNode extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function fstag() {
+    public function fstags() {
         return $this->hasOne('YnievesDotNet\FourStream\Models\FourStreamTag', 'fsnode_id');
     }
 
     /**
      * Get the user that owns the node.
      */
-    public function user() {
+    public function users() {
         return $this->belongsTo('App\User');
     }
 }

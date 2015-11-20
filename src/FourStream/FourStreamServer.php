@@ -77,22 +77,18 @@ class FourStreamServer {
                     $fsnode->node_id = $node->getId();
                     $fsnode->save();
                     if ($data->tag != "") {
-                        $fstag = $fsnode->fstag()->create([
+                        $fstag = $fsnode->fstags()->create([
                             'tag' => $data->tag,
                         ]);
                     }
                     return;
 
-                case "notify":
-                case "message":
+                default:
                     foreach ($nodes as $node) {
                         if($node->getId() == $data->node_id) {
                             $bucket->getSource()->send(json_encode($data), $node);
                         }
                     };
-                    return;
-
-                default:
                     return;
             }
             return;

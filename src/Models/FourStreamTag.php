@@ -49,7 +49,7 @@ class FourStreamTag extends Model {
     /**
      * @return mixed
      */
-    public function fsnode() {
+    public function fsnodes() {
         return $this->belongsTo('YnievesDotNet\FourStream\Models\FourStreamNode');
     }
 }

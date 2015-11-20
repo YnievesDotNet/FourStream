@@ -38,7 +38,7 @@ trait FourStreamUserNodes {
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function fsnode()
+    public function fsnodes()
     {
         return $this->hasMany('YnievesDotNet\FourStream\Models\FourStreamNode');
     }
