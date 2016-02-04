@@ -25,6 +25,7 @@
 namespace YnievesDotNet\FourStream;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use YnievesDotNet\FourStream\Command\FourStreamStartCommand;
 
 /**
@@ -33,8 +34,9 @@ use YnievesDotNet\FourStream\Command\FourStreamStartCommand;
  * @package  YnievesDotNet\FourStream
  * @author   YnievesDotNet <yoinier.hn@gmail.com>
  */
-class FourStreamServiceProvider extends ServiceProvider {
-    
+class FourStreamServiceProvider extends ServiceProvider
+{
+
     /**
      * Internal service prefix.
      *
@@ -51,31 +53,46 @@ class FourStreamServiceProvider extends ServiceProvider {
 
     /**
      * Bootstrap the application events.
+     *
+     * @param DispatcherContract $events
+     * @return void
      */
-    public function boot(){
+    public function boot(DispatcherContract $events)
+    {
+        parent::boot($events);
+
+        $events->listen('ynievesdotnet.fourstream.messageArrived', array([
+            'YnievesDotNet\Fourstream\Listeners\messageArrived',
+        ]));
+
         $this->publishes([
             base_path('vendor/ynievesdotnet/fourstream/config/config.php') => config_path('fourstream.php'),
             base_path('vendor/ynievesdotnet/fourstream/migrations') => base_path('database/migrations'),
         ]);
     }
-    
+
     /**
      * Register the service provider.
      */
-    public function register(){
-        $this->app['command.fourstream:start'] = $this->app->share(function($app)
-        {
+    public function register()
+    {
+
+        $this->app->singleton('fs.router', 'YnievesDotNet\FourStream\FourStreamRouter');
+
+        $this->app['command.fourstream:start'] = $this->app->share(function ($app) {
             return new FourStreamStartCommand();
         });
+
         $this->commands('command.fourstream:start');
     }
-    
+
     /**
      * Get the services provided by the provider.
      *
      * @return array
      */
-    public function provides(){
+    public function provides()
+    {
         return array('command.fourstream:start');
     }
 }

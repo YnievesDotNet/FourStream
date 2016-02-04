@@ -57,8 +57,9 @@ class FourStream {
             'data' => $data,
             'node_id' => $node_id
         );
+		$host = config('fourstream.host');
         $port = config('fourstream.port');
-        $tcpid = "tcp://127.0.0.1:$port";
+        $tcpid = "tcp://$host:$port";
         $client = new WsClient(
             new SClient($tcpid)
         );

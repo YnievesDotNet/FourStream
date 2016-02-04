@@ -1,5 +1,12 @@
 # Changelog
 
+##### 0.5
+- [Docs](doc/) and [Examples](example/) has been updated.
+- [API](https://github.com/ynievesdotnet/fourstream-api) has been moved.
+- Now the library is more powerfull, is possible extend the native class using Events. See new [Docs](doc/) changes for more info.
+- Update Hoa Library at the version 3.
+- Added FourStream Router Class. See [API](https://github.com/ynievesdotnet/fourstream-api) for more info.
+
 ##### 0.4
 - The `Nodes` can be tagged. Is good for sending messaje at one node for one speific user or some users. For example, the nodes conected at one specific page can be tagged as `dashboard`, and with this functionality is possible send one message at all client connected at this page.
 - Edited the model to assoc at the true entity type.

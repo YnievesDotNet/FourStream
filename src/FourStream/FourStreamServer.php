@@ -26,7 +26,9 @@ namespace YnievesDotNet\FourStream\FourStream;
 
 use Hoa\Websocket\Server as WebSocket;
 use Hoa\Socket\Server as Socket;
-use Hoa\Core\Event\Bucket as Bucket;
+use Hoa\Event\Bucket as Bucket;
+use YnievesDotNet\FourStream\Events;
+use Illuminate\Support\Facades\Event;
 use YnievesDotNet\FourStream\Models\FourStreamNode as FSNode;
 
 /**
@@ -61,42 +63,23 @@ class FourStreamServer {
         $this->server = new Websocket(
             new Socket($tcpid)
         );
-        //TODO: Eliminate from here for other methods
         $this->server->on('open', function (Bucket $bucket) {
-            //TODO: Customize Open Connection Logic
+            Event::fire(new Events\ConnectionOpen($bucket));
         });
         $this->server->on('message', function (Bucket $bucket) {
-            $data = $bucket->getData();
-            $node = $bucket->getSource()->getConnection()->getCurrentNode();
-            $data = json_decode($data['message']);
-            $nodes = $bucket->getSource()->getConnection()->getNodes();
-            switch ($data->type) {
-                case "tocken":
-                    $tck = $data->data;
-                    $fsnode = FSNode::where('tocken', $tck)->first();
-                    $fsnode->node_id = $node->getId();
-                    $fsnode->save();
-                    if ($data->tag != "") {
-                        $fstag = $fsnode->fstags()->create([
-                            'tag' => $data->tag,
-                        ]);
-                    }
-                    return;
-
-                default:
-                    foreach ($nodes as $node) {
-                        if($node->getId() == $data->node_id) {
-                            $bucket->getSource()->send(json_encode($data), $node);
-                        }
-                    };
-                    return;
-            }
-            return;
+            Event::fire(new Events\MessageReceived($bucket));
+        });
+        $this->server->on('binary-message', function (Bucket $bucket) {
+            Event::fire(new Events\BinaryMessageReceived($bucket));
+        });
+        $this->server->on('ping', function (Bucket $bucket) {
+            Event::fire(new Events\PingReceived($bucket));
+        });
+        $this->server->on('error', function (Bucket $bucket) {
+            Event::fire(new Events\ErrorGenerated($bucket));
         });
         $this->server->on('close', function (Bucket $bucket) {
-            $node = $bucket->getSource()->getConnection()->getCurrentNode();
-            $fsnode = FSNode::where('node_id', $node->getId())->delete();
-            return;
+            Event::fire(new Events\ConnectionClose($bucket));
         });
 
         return $this;

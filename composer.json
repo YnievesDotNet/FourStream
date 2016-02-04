@@ -1,6 +1,6 @@
 {
     "name": "ynievesdotnet/fourstream",
-    "description": "A Laravel 5.1.x websocket server made easy...",
+    "description": "A Laravel 5.x websocket server made easy...",
     "homepage": "https://github.com/ynievesdotnet/fourstream",
     "license": "MIT",
     "authors": [
@@ -12,8 +12,8 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
-        "hoa/websocket": "~2.0"
+        "laravel/framework": "~5.0",
+        "hoa/websocket": "~3.0"
     },
     "require-dev": {
         "orchestra/testbench": "3.1.*",
@@ -25,10 +25,5 @@
             "YnievesDotNet\\FourStream\\": "src/"
         }
     },
-    "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.x-dev"
-        }
-    }
+    "minimum-stability": "stable"
 }

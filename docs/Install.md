@@ -4,6 +4,7 @@
 - [Add Service Provider](#config)
 - [Publish Assets](#assets)
 - [Generating Database](#database)
+- [Mapping actions](#routes)
 
 <a name="install"></a>
 ## Install package
@@ -12,7 +13,7 @@ Add at your composer file this:
 ```json
 {
     "require": {
-        "ynievesdotnet/fourstream": "~0.4"
+        "ynievesdotnet/fourstream": "~0.5"
     }
 }
 ```
@@ -49,3 +50,59 @@ In this moment you can populate the database with the table for storing the rela
 ```
 php artisan migrate
 ```
+<a name="routes"></a>
+## Mapping actions
+For extend actions functionality is needed add this lines in your routes.php
+```php
+$fs = app('fs.router');
+$fs->registerAction('myAction', 'MyController@myMethod');
+```
+See [Mapping actions use](docs/mapping.md).
+<a name="events"></a>
+## Listen events
+Other method to interact with the message received at the FourStream WebSocket is using the Laravel Events. To do this you need add all the listeners at the`$listen` array in your  `App\Providers\EventServiceProvider.php`.
+```php
+/**
+ * The event listener mappings for the application.
+ *
+ * @var array
+ */
+protected $listen = [
+    'YnievesDotNet\FourStream\Events\MessageReceived' => [
+        'App\Listeners\YourListener',
+    ],
+];
+```
+and in `YourListener` class your need add this `uses`.
+```php
+namespace App\Listeners;
+
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use YnievesDotNet\FourStream\Events\MessageReceived;
+
+
+class YourListener
+{
+    /**
+     * Create the event handler.
+     *
+     */
+    public function __construct()
+    {
+        // Your Listener Construct Logic
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param MessageReceived $event
+     * @return void
+     */
+    public function handle(MessageReceived $event)
+    {
+        // Your Listener Handle Logic
+    }
+}
+```
+See [Listen events use](docs/events.md).
