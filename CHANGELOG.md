@@ -1,9 +1,9 @@
-# Changelog
+﻿# Changelog
 
 ##### 0.5
 - [Docs](doc/) and [Examples](example/) has been updated.
 - [API](https://github.com/ynievesdotnet/fourstream-api) has been moved.
-- Now the library is more powerfull, is possible extend the native class using Events. See new [Docs](doc/) changes for more info.
+- Now the library is more powerfull, is possible extend the native class using Events. See new [Docs](doc/) changes for more info. The package contain 6 Events and 6 Handlers Events, customizable at your own logic, but using same structure.
 - Update Hoa Library at the version 3.
 - Added FourStream Router Class. See [API](https://github.com/ynievesdotnet/fourstream-api) for more info.
 

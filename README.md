@@ -1,4 +1,4 @@
-# FourStream
+﻿# FourStream
 
 [![Laravel](https://img.shields.io/badge/Laravel-~5.1-orange.svg?style=flat-square)](http://laravel.com)
 [![Latest Version](https://img.shields.io/badge/Version-~0.5-green.svg?style=flat-square)](https://github.com/ynievesdotnet/fourstream/releases)
@@ -9,11 +9,10 @@
 - [Changelog](CHANGELOG.md)
 - [Licence](docs/LICENCE.md)
 - [Install](docs/Install.md)
-- [Mapping actions use](docs/mapping.md)
-- [Listen events use](docs/events.md)
+- [Editing Events and Handlers use](docs/Events.md)
+- [Mapping actions use](docs/Mapping.md)
 - [Configuring the Nodes](docs/Configuring.md)
 - [Running the Server](docs/Running.md)
-- [Sending Messages](docs/Sending.md)
 
 <a name="introduction"></a>
 ## Introduction

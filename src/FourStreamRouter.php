@@ -8,6 +8,8 @@
 
 namespace YnievesDotNet\FourStream;
 
+use YnievesDotNet\FourStream\Events\MessageReceived as Received;
+
 
 class FourStreamRouter
 {
@@ -32,16 +34,18 @@ class FourStreamRouter
     /**
      * Dispatching the action to a ControllerController@action
      *
-     * @param $action
+     * @param Received $event
      * @return mixed
      */
-    public function dispatch($action)
+    public function dispatch(Received $event)
     {
-        $split = explode('@', $this->actions[$action]);
+        $data = $event->bucket->getData();
+        $data = json_decode($data['message']);
+        $split = explode('@', $this->actions[$data->type]);
         $controller = $split[0];
         $method = $split[1];
         $class = app($controller);
-        return $class->{$method};
+        return $class->{$method}($event);
     }
 
 }
