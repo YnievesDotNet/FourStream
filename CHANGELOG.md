@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+##### 0.5.1
+- Fixing minor bugs for more stability
+- The [API](https://github.com/ynievesdotnet/fourstream-api) has been updated.
+- [Docs](doc/) and [Examples](example/) has been updated.
+
 ##### 0.5
 - [Docs](doc/) and [Examples](example/) has been updated.
 - [API](https://github.com/ynievesdotnet/fourstream-api) has been moved.

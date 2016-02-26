@@ -11,13 +11,14 @@ One node is the `Object` container of the conection at the websocket, and have t
 ```
 This create one function accessible in User class for creation the one tocken ID for identification of your websocket session and your client. This is necessary when you need send message at one specific user or group of users.
 
-For tagging one node you can simply send this:
+For authenticate one node you can simply send this:
 ```html
 <script>
 	...
 	    var msg = new Object();
-        msg.type = 'tagging';
-        msg.data = 'homepage';
+        msg.type = 'auth';
+        msg.data = '{{ $auth_user->generateTocken() }}';
+        msg.tag = '@yield('fstag')';
         try {
             socket.send(JSON.stringify(msg));
         } catch (e) {
@@ -26,3 +27,4 @@ For tagging one node you can simply send this:
 	...
 </script>
 ```
+note what `$auth_user` is the instance at the user autenticated, and `'@yield('fstag')';` send one tag for tagging the current node.

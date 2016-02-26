@@ -25,7 +25,7 @@
 namespace YnievesDotNet\FourStream\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use YnievesDotNet\FourStream\Fourstream as FStream;
+use YnievesDotNet\FourStream\FourStream as FStream;
 
 /**
  * @see YnievesDotNet\WebSocket\WebSocket

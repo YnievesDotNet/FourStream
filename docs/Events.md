@@ -1,4 +1,4 @@
-#Editing Events and Handlers use
+﻿#Editing Events and Handlers use
 By defaults, the package handlers event have a native functions, here a list:
 
 Handler Event  |  Function
@@ -41,21 +41,6 @@ class ConnectionOpen
     {
         // $node is the current node, obtain him from the $event container
         $node = $event->bucket->getSource()->getConnection()->getCurrentNode();
-        // Getting if the user has been authenticated.
-        // if your are using Sentinel or other package,
-        // maybe you have edit this line.
-        $user = Auth::user();
-        if($user)
-        {
-            // Here is saved in the database a tocken,
-            // this action create a reference between
-            // the user and the node.
-            $tocken = $user->generateTocken();
-        } else {
-            // if the user is not logged, the tocken has been
-            //  declared as public and is not saved.
-            $tocken = "public";
-        }
         // If the app is running un debug mode echo a message
         if (config('app.debug')) {
             echo "> Connection Opened: " . $node->getId() . " tocken: " . $tocken . "\n";

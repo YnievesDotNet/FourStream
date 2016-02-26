@@ -6,7 +6,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use YnievesDotNet\FourStream\Events\ConnectionOpen as Open;
 use YnievesDotNet\FourStream\Models\FourStreamNode as FSNode;
-use Illuminate\Support\Facades\Auth;
 
 class ConnectionOpen
 {
@@ -28,15 +27,8 @@ class ConnectionOpen
     public function handle(Open $event)
     {
         $node = $event->bucket->getSource()->getConnection()->getCurrentNode();
-        $user = Auth::user();
-        if($user)
-        {
-            $tocken = $user->generateTocken();
-        } else {
-            $tocken = "public";
-        }
         if (config('app.debug')) {
-            echo "> Connection Opened: " . $node->getId() . " tocken: " . $tocken . "\n";
+            echo "> Connection Opened: " . $node->getId() . "\n";
         }
     }
 }

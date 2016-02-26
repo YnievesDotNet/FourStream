@@ -1,4 +1,4 @@
-#Mapping action use
+﻿#Mapping action use
 When is defined an action in `routes.php` using this lines:
 ```php
 $fs = app('fs.router');
@@ -28,6 +28,7 @@ class TextController extends Controller
 {
     public function sendText(Received $event)
     {
+        $nodes = $event->bucket->getSource()->getConnection()->getNodes(); 
     	$data = $event->bucket->getData();
     	$data = json_decode($data['message']);
     	if(isset($data->node_id) and $data->node_id != "") {
@@ -102,6 +103,6 @@ Now for try this functionality in your blade template you need add this lines.
 ```
 If you see the `MessageReceived` Handler Event note what is needed receive the param `type` for define the action to run. The second param is called `data`, and hi contain the message content needed to send.
 
-Exist one reserved `type` sentence defined, and is *tagging* and this action is for tagging the nodes, and this property is good if you want send message at one or all nodes connected in one specific page in your app. This is usefull when you have a Single Page Application, see the [Examples](examples/) directory for more info.
+Exist one reserved `type` sentence defined, and is *auth* and this action is for maping the nodes with the user autenticated, and with one additional parameters, `tag` for tagging the node, and this property is good if you want send message at one or all nodes connected in one specific page in your app. This is usefull when you have a Single Page Application, see the [Examples](examples/) directory for more info.
 
 Any other params if you need send are optionals.

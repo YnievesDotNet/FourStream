@@ -31,7 +31,11 @@ class MessageReceived
         $data = json_decode($data['message']);
         $nodes = $event->bucket->getSource()->getConnection()->getNodes();
         $fsnode = FSNode::where('node_id', $node->getId())->first();
-        if($data->type == "tagging") {
+        if($data->type == "auth") {
+			$tck = $data->data;
+			$fsnode = FSNode::where('tocken', $tck)->first();
+			$fsnode->node_id = $node->getId();
+			$fsnode->save();
             if ($data->tag != "" && $fsnode) {
                 $fsnode->fstags()->create([
                     'tag' => $data->tag,
